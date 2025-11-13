@@ -1,0 +1,21 @@
+﻿@inherits LayoutComponentBase
+@if (!IsRoot)
+{
+    <header class="topbar">
+        <div class="topbar__inner">
+            <div class="topbar__brand">HR Department</div>
+            <nav class="topbar__nav">
+                <NavLink href="/employees" class="topbar__link" activeClass="is-active">Сотрудники</NavLink>
+                <NavLink href="/business-trips" class="topbar__link" activeClass="is-active">Командировки</NavLink>
+                <NavLink href="/vacation" class="topbar__link" activeClass="is-active">Отпуск</NavLink>
+                <NavLink href="/sick-leave" class="topbar__link" activeClass="is-active">Больничный</NavLink>
+            </nav>
+        </div>
+    </header>
+}
+
+<div class="page-wrapper">
+    <main class="page">
+        @Body
+    </main>
+</div>

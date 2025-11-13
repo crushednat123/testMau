@@ -1,0 +1,26 @@
+﻿@page "/"
+<PageTitle>Авторизация</PageTitle>
+
+<EditForm Model="@loginModel" FormName="LoginForm" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <div class="login-container">
+        <h2>Добро пожаловать 👋</h2>
+        <p>Пожалуйста, войдите в систему</p>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <InputText id="email" maxlength="50" @bind-Value="loginModel.Email"
+                       class="form-control" />
+            <ValidationMessage For="@(() => loginModel.Email)" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <InputText id="password" @bind-Value="loginModel.Password"
+                       type="password" class="form-control" maxlength="50" />
+            <ValidationMessage For="@(() => loginModel.Password)" />
+        </div>
+
+        <button type="submit" class="btn-login">Войти</button>
+    </div>
+</EditForm>.

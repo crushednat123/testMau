@@ -1,0 +1,67 @@
+﻿@page "/UserCard/{Id:int}"
+
+<h3>Карточка сотрудника</h3>
+<div>@(worker == null)</div>
+@if (worker == null)
+{
+    <div class="usKard-loading">Загрузка данных...</div>
+}
+else 
+{
+    
+  <EditForm Model="@worker" FormName="UserForm" OnValidSubmit="SaveChanges">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="usKard-card">
+            <div class="usKard-group">
+                <label>Фамилия</label>
+                <InputText class="usKard-input" @bind-Value="worker.SurName" />
+            </div>
+
+            <div class="usKard-group">
+                <label>Имя</label>
+                <InputText class="usKard-input" @bind-Value="worker.Name" />
+            </div>
+
+            <div class="usKard-group">
+                <label>Отчество</label>
+                <InputText class="usKard-input" @bind-Value="worker.Patronymic" />
+            </div>
+
+            <div class="usKard-group">
+                <label>Должность</label>
+                <InputText class="usKard-input" @bind-Value="worker.Post" />
+            </div>
+
+            <div class="usKard-group">
+                <label>Зарплата</label>
+                <InputNumber class="usKard-input" @bind-Value="worker.Salary" />
+            </div>
+
+            <div class="usKard-group">
+                <label>Дата отпуска</label>
+                <InputDate class="usKard-input" @bind-Value="worker.Vacations.FirstOrDefault().VacationDate" />
+            </div>
+
+            <div class="usKard-group">
+                <label>Дата командировки</label>
+                <InputDate class="usKard-input" @bind-Value="worker.Vacations.FirstOrDefault().DateOfBusinessTrip" />
+            </div>
+
+            <div class="usKard-group">
+                <label>Дата больничного</label>
+                <InputDate class="usKard-input" @bind-Value="worker.Vacations.FirstOrDefault().SickLeaveStartDate" />
+            </div>
+
+            <div class="usKard-actions">
+                <button class="usKard-btn usKard-btn-save" type="submit">💾 Сохранить</button>
+                <button class="usKard-btn usKard-btn-cancel" type="button" @onclick="CancelEdit">Отмена</button>
+            </div>
+        </div>
+    </EditForm>                
+    
+   
+}
+
+

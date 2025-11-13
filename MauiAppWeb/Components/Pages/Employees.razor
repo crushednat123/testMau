@@ -1,0 +1,97 @@
+﻿@page "/employees"
+@using MauiAppWeb.Entities
+
+<div class="employees-container">
+    <div class="page-header">
+        <h3>Сотрудники</h3> 
+
+       <input class="form-control search-input" placeholder="Поиск сотрудников..." @bind="searchQuery" />
+
+
+        <button class="btn-primary" @onclick="LoadEmployees">
+            <span class="refresh-icon @(isLoading ? "spin" : "")">↻</span>
+            Обновить
+        </button>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Загрузка данных...</p>
+        </div>
+    }
+    else if (employees == null || !employees.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-icon">📊</div>
+            <h4>Нет данных о сотрудниках</h4>
+            <p>Данные не загружены или таблица пуста</p>
+            <button class="btn btn-outline-primary" @onclick="LoadEmployees">
+                Загрузить данные
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="table-container">
+            <table class="employees-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ФИО</th>
+                        <th>Должность</th>
+                        <th>Зарплата</th>
+                        <th>Статус</th>
+                        <th>Отпуск</th>
+                        <th>Командировка</th>
+                        <th>Больничный</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in FilteredEmployees)
+                    {
+                        <tr ondblclick="@(() => OpenUserCard(employee))">
+                            <td class="id-column">#@employee.Id</td>
+                            <td class="name-column">
+                                <div class="avatar-placeholder-small">
+                                    @GetInitials(GetFullName(employee))
+                                </div>
+                                <strong>@GetFullName(employee)</strong>
+                            </td>
+                            <td class="position-column">
+                                <span class="position-badge">@employee.Post</span>
+                            </td>
+                            <td class="salary-column">
+                                <span class="salary-amount">@FormatSalary(employee.Salary)</span>
+                            </td>
+                            <td class="status-column">
+                                <span class="status-badge @GetEmploymentStatus(employee)">
+                                    @GetEmploymentStatusText(employee)
+                                </span>
+                            </td>
+                            <td class="vacation-column">
+                                @GetVacationInfo(employee)
+                            </td>
+                            <td class="business-trip-column">
+                                @GetBusinessTripInfo(employee)
+                            </td>
+                            <td class="sick-leave-column">
+                                @GetSickLeaveInfo(employee)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-footer">
+            <div class="summary">
+                Показано <strong>@FilteredEmployees.Count()</strong> сотрудников
+                <span class="total-salary">
+                    Общий фонд зарплат: <strong>@FormatSalary(GetFilteredTotalSalary())</strong>
+                </span>
+            </div>
+        </div>
+    }
+</div>
